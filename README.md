@@ -1,2 +1,4 @@
 # e-shop
-My Internet-shop. Django-DTL
+My Internet-shop. 
+Backend - Python/Django
+Frontend - HTML/DTL
