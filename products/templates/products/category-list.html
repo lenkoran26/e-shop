@@ -1,0 +1,14 @@
+<table border="2">
+    <th>ID</th>
+    <th>Название</th>
+    <th>Описание</th>
+    <th>URL</th>
+    {% for category in categories %}
+    <tr>
+        <td align="center" >{{category.id}}</td>
+        <td align="center">{{category.name}}</td>
+        <td align="center">{{category.description}}</td>
+        <td align="center">{{category.slug}}</td>
+     </tr>
+    {% endfor %}
+</table>
