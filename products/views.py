@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.views.generic import CreateView, ListView
@@ -27,6 +28,12 @@ class CategoryListView(ListView):
     model = Category
     template_name = 'products/category-list.html'
     context_object_name = 'categories'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        subcategories = SubCategory.objects.all()
+        context['subcategories'] = subcategories
+        return context
 
 
 class SubCategoryCreateView(CreateView):

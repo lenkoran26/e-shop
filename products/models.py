@@ -26,7 +26,7 @@ class Category(models.Model):
 
 class SubCategory(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя подкатегории')
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Категория', null=False, blank=False, related_name='category')
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Категория', related_name='category')
     slug = models.SlugField(max_length=70, unique=True, verbose_name='URL-имя', editable=False)
     
     def save(self, *args, **kwargs):
