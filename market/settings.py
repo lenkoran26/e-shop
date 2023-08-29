@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'users',
     'orders',
     'cart',
+    'slugify',
 ]
 
 MIDDLEWARE = [

@@ -14,6 +14,7 @@ class CategoryForm(forms.ModelForm):
 
 
 class SubCategoryForm(forms.ModelForm):
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label='None')
     class Meta:
         model = SubCategory
         fields = '__all__'

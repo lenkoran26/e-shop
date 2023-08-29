@@ -1,0 +1,6 @@
+<p>{{category.name}}</p>
+<ul>
+{% for subcat in subcategory %}
+    <li>{{subcat.name}} {{subcat.slug}}</li>
+{%endfor%}
+</ul>

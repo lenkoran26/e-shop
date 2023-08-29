@@ -1,10 +1,12 @@
 from django.db import models
 from django.urls import reverse
+# from django.utils.text import slugify
+from slugify import slugify
 
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name='Имя категории', unique=True)
     description = models.TextField(max_length=1000, verbose_name='Описание категории')
-    slug = models.SlugField(max_length=70, unique=True, verbose_name='URL-имя')  # отображает имя сущности
+    slug = models.SlugField(max_length=70, unique=True, verbose_name='URL-имя', editable=False)  # отображает имя сущности
 
     class Meta:
         verbose_name = 'Категория'
@@ -16,11 +18,21 @@ class Category(models.Model):
 
     def get_url(self):  # Используется для получения URL возвращает страничку
         return reverse('category_detail', args=[self.slug])  # передает имя продукта
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
 
 
 class SubCategory(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя подкатегории')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Категория', null=False, blank=False, related_name='category')
+    slug = models.SlugField(max_length=70, unique=True, verbose_name='URL-имя', editable=False)
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(SubCategory, self).save(*args, **kwargs)
+
 
     class Meta:
         verbose_name = 'Подкатегория'
