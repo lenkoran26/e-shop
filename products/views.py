@@ -1,4 +1,3 @@
-from typing import Any, Dict
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.views.generic import CreateView, ListView
