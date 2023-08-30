@@ -23,7 +23,10 @@ class SubCategoryForm(forms.ModelForm):
             'category': 'Категория',
         }
 
+
 class ProductForm(forms.ModelForm):
+    category = forms.SelectMultiple()
+    subcategory = forms.SelectMultiple()
     class Meta:
         model = Products
-        exclude = ['created_at', 'is_available']
+        exclude = ['created_at', 'is_available', 'subcategory']

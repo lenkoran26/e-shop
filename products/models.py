@@ -26,13 +26,15 @@ class Category(models.Model):
 
 class SubCategory(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name='Имя подкатегории')
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Категория', related_name='category')
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Категория', related_name='categories')
     slug = models.SlugField(max_length=70, unique=True, verbose_name='URL-имя', editable=False)
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(SubCategory, self).save(*args, **kwargs)
 
+    def __str__(self) -> str:
+        return self.name
 
     class Meta:
         verbose_name = 'Подкатегория'
@@ -44,11 +46,12 @@ class Products(models.Model):
     name = models.CharField(max_length=128, unique=True, verbose_name='Название товара')
     description = models.TextField(max_length=1000, verbose_name='Описание товара')
     price = models.FloatField(verbose_name='Цена товара')
-    slug = models.SlugField(max_length=148, unique=True, verbose_name='URL-имя')
+    slug = models.SlugField(max_length=148, unique=True, verbose_name='URL-имя', editable=False)
     is_available = models.BooleanField(default=True, verbose_name='Доступность товара')
     created_at = models.DateField(auto_now_add=True, verbose_name='Дата добавления товара')
-    image = models.ImageField(upload_to='images/', verbose_name='Изображение товара')
-    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, verbose_name='Подкатегория')
+    image = models.ImageField(upload_to='images/', verbose_name='Изображение товара', null=True, blank=True)
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, verbose_name='Подкатегория', editable=False, related_name='subcategory')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория', editable=False, related_name='category')
 
     class Meta:
        verbose_name = 'Товар'
@@ -56,8 +59,12 @@ class Products(models.Model):
        ordering = ['name', '-price']
 
     def get_url(self):
-        return reverse('product_datail', args=[self.category.slug, self.slug])
+        return reverse('product_detail', args=[self.category.slug, self.slug])
 
     def __str__(self) -> str:
         return self.name
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Products, self).save(*args, **kwargs)
 

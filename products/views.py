@@ -1,9 +1,14 @@
+from typing import Any, Dict
+from django.forms.models import BaseModelForm
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.views.generic import CreateView, ListView
 from .models import Category, SubCategory, Products
-from .forms import CategoryForm, SubCategoryForm, Products
+from .forms import CategoryForm, SubCategoryForm, ProductForm
 from django.urls import reverse_lazy
+from django import template
+
+register = template.Library()
 
 
 def index(request):
@@ -28,12 +33,7 @@ class CategoryListView(ListView):
     template_name = 'products/category-list.html'
     context_object_name = 'categories'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        subcategories = SubCategory.objects.all()
-        context['subcategories'] = subcategories
-        return context
-
+   
 
 class SubCategoryCreateView(CreateView):
     model = SubCategory
@@ -45,7 +45,6 @@ class SubCategoryCreateView(CreateView):
 
 
 def CategoryDetail(request, category_slug):
-
     category = get_object_or_404(Category, slug=category_slug)
     subcategory = SubCategory.objects.filter(category=category)
     context = {
@@ -55,3 +54,19 @@ def CategoryDetail(request, category_slug):
 
     return render(request, 'products/category-detail.html', context=context)
 
+
+
+class ProductCreateView(CreateView):
+    model = Products
+    fields = '__all__'
+    form = ProductForm
+    template_name = 'products/product-form.html'
+    success_url = reverse_lazy('products:index')
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['subcategories'] = SubCategory.objects.all()
+        return context
+    
+    
