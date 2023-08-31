@@ -3,6 +3,9 @@ from django.urls import reverse
 # from django.utils.text import slugify
 from slugify import slugify
 
+def create_directory_path(instance, filename):
+    return f'images/{instance.category.slug}/{instance.subcategory.slug}'
+
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name='Имя категории', unique=True)
     description = models.TextField(max_length=1000, verbose_name='Описание категории')
@@ -55,7 +58,7 @@ class Products(models.Model):
     created_at = models.DateField(auto_now_add=True, verbose_name='Дата добавления товара')
     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, verbose_name='Подкатегория', editable=False, related_name='subcategory')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория', editable=False, related_name='category')
-    image = models.ImageField(upload_to='products/', verbose_name='Изображение товара', null=True, blank=True)
+    image = models.ImageField(upload_to=create_directory_path, verbose_name='Изображение товара', null=True, blank=True)
     
     class Meta:
        verbose_name = 'Товар'
@@ -70,7 +73,7 @@ class Products(models.Model):
             }
         ) 
     
-    def __str__(self) -> str:
+    def __str__(self):
         return self.name
     
     def save(self, *args, **kwargs):
