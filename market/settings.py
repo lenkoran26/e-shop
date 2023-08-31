@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'orders',
     'cart',
     'slugify',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'products:index'
 LOGIN_URL = 'users:login'
+
+# Base url to serve media files 
+MEDIA_URL = '/media/' 
+
+# Path where media is stored 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

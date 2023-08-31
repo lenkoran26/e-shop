@@ -12,8 +12,8 @@
     <strong>{{ c.name }}</strong>
   </a>
   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-    {% for subcategory in c.category.all %}
-    <a class="dropdown-item" href="#">{{ subcategory.name }}</a>
+    {% for subcategory in c.categories.all %}
+    <a class="dropdown-item" href="{{ subcategory.get_absolute_url }}">{{ subcategory.name }}</a>
     {% endfor %}
   </div>
 </li>

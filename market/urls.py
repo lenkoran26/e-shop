@@ -20,6 +20,8 @@ from products import urls as urls_products
 from users import urls as urls_users
 from cart import urls as urls_cart
 from orders import urls as urls_orders
+from django.conf.urls.static import static
+from market import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,3 +30,6 @@ urlpatterns = [
     path('cart/', include(urls_cart)),
     path('orders/', include(urls_orders)),
 ]
+
+if settings.DEBUG: 
+	urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -11,8 +11,8 @@
     subcategorySelect.innerHTML = '';
     for (var i = 0; i < subcategories.length; i++) {
       var option = document.createElement('option');
-      option.value = subcategories[i];
-      option.text = subcategories[i];
+      option.value = subcategories[i].id;
+      option.text = subcategories[i].name;
       subcategorySelect.appendChild(option);
     }
   };

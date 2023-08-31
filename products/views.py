@@ -1,8 +1,8 @@
 from typing import Any, Dict
 from django.forms.models import BaseModelForm
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse
-from django.views.generic import CreateView, ListView
+from django.http import HttpRequest, HttpResponse
+from django.views.generic import CreateView, ListView, DetailView
 from .models import Category, SubCategory, Products
 from .forms import CategoryForm, SubCategoryForm, ProductForm
 from django.urls import reverse_lazy
@@ -68,5 +68,32 @@ class ProductCreateView(CreateView):
         context['categories'] = Category.objects.all()
         context['subcategories'] = SubCategory.objects.all()
         return context
+
+    def form_valid(self, form):
+        self.instance = form.save(commit=False)
+        self.instance.category_id = self.request.POST.get('category')
+        self.instance.subcategory_id = self.request.POST.get('subcategory')
+        self.instance.save()
+        return super().form_valid(form)
+
+
+class ProductListView(ListView):
+    model = Products
+    template_name = 'products/testindex.html'
+    context_object_name = 'products'
+
+
+    def get_queryset(self):
+        super().get_queryset()
+        slug = self.request.resolver_match.kwargs['subcat_slug']
+        queryset = Products.objects.filter(subcategory__slug = slug)
+        return queryset
     
-    
+       
+
+
+
+
+class ProductDetailView(DetailView):
+    pass
+

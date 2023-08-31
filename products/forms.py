@@ -14,7 +14,7 @@ class CategoryForm(forms.ModelForm):
 
 
 class SubCategoryForm(forms.ModelForm):
-    # category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label='None')
+    
     class Meta:
         model = SubCategory
         fields = '__all__'
@@ -25,8 +25,8 @@ class SubCategoryForm(forms.ModelForm):
 
 
 class ProductForm(forms.ModelForm):
-    category = forms.SelectMultiple()
-    subcategory = forms.SelectMultiple()
+    category = forms.ModelChoiceField(queryset=Category.objects.all())
+    subcategory = forms.ModelChoiceField(queryset=SubCategory.objects.all())
     class Meta:
         model = Products
-        exclude = ['created_at', 'is_available', 'subcategory']
+        exclude = ['created_at', 'is_available']

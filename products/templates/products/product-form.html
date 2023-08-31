@@ -24,7 +24,11 @@ var categories = {
     "{{ category.id }}": {
       subcategories: [
         {% for subcategory in category.categories.all %}
-        "{{ subcategory.name }}",
+        {
+          id:"{{ subcategory.id }}",
+          name:"{{ subcategory.name }}",
+        },
+        
         {% endfor %}
       ]
     },
