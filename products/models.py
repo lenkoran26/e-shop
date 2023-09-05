@@ -3,7 +3,7 @@ from django.urls import reverse
 # from django.utils.text import slugify
 from slugify import slugify
 
-def create_directory_path(instance, filename):
+def create_directory_path(instance):
     return f'images/{instance.category.slug}/{instance.subcategory.slug}'
 
 class Category(models.Model):
@@ -69,7 +69,8 @@ class Products(models.Model):
     def get_absolute_url(self):  # Используется для получения URL возвращает страничку
         return reverse('products:product-detail', kwargs={
             'cat_slug': self.category.slug, 
-            'subcat_slug':self.slug, 'prod_slug': self.slug
+            'subcat_slug':self.slug, 
+            'prod_slug': self.slug
             }
         ) 
     

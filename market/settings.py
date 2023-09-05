@@ -143,3 +143,6 @@ MEDIA_URL = '/media/'
 # Path where media is stored 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+# ключ, который будет использоваться для хранения корзины в пользовательском сеансе
+CART_SESSION_ID = 'cart'
+

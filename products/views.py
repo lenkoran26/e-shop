@@ -97,6 +97,8 @@ def get_category(self):
     }
     return context
 
+def add_to_cart(request, product_slug):
+    return HttpResponse(product_slug)
 
 
 class ProductDetailView(DetailView):
