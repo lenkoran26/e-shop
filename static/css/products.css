@@ -2,16 +2,18 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    padding-left: 10%;
+	  padding-right: 5%;
   }
   .product {
-    width: calc(33.33% - 10px);
+    width: calc(25% - 10px);
     margin-bottom: 20px;
     border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
   }
   .product img {
-    max-width: 100%;
+    max-width: 200px;
     max-height: 200px;
   }
   .product h2 {

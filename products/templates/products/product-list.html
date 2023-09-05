@@ -1,26 +1,25 @@
 {% extends 'products/base.html' %}
+{% load static %}
 {% block content %}
 
-<h2>Информация о товарах:</h2>
-<br>
-<table border="2px">
-<th>Наименование</th>
-<th>Стоимость</th>
-<th>Категория</th>
-<th>Подкатегория</th>
-<th>Описание</th>
+<link rel="stylesheet" href="{% static 'css/products.css'%}" type="text/css">
 
+<div class="products">
+    {% for prod in products %}
+      <div class="product">
+        
+        {% load thumbnail %}
+            {% thumbnail prod.image "300" as im %}
+            <a href="{{ prod.image.url }}">
+                <img src="{{ im.url }}" class="image-detail">
+            </a>
+        {% endthumbnail %}
+        
 
-{% for prod in products %}
-<tr>
-    <td>{{prod.name}}</td>  
-    <td>{{prod.price}}</td>
-    <td>{{prod.category.name}}</td>
-    <td>{{prod.subcategory.name}}</td> 
-    <td>{{prod.description}}</td>
-</tr>
-  
-{% endfor %}
-</table>
-
-{% endblock %}
+        <h2>{{ prod.name }}</h2>
+        <p>{{ prod.description }}</p>
+        <p>{{ prod.price }} руб.</p>
+      </div>
+    {% endfor %}
+    </div>
+    {% endblock %}

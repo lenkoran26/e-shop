@@ -79,7 +79,7 @@ class ProductCreateView(CreateView):
 
 class ProductListView(ListView):
     model = Products
-    template_name = 'products/testindex.html'
+    template_name = 'products/product-list.html'
     context_object_name = 'products'
 
 
@@ -90,7 +90,12 @@ class ProductListView(ListView):
         return queryset
     
        
-
+def get_category(self):
+    category = Category.objects.all()
+    context = {
+        'category_list': category
+    }
+    return context
 
 
 

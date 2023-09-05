@@ -6,7 +6,9 @@
   text-align: center;
   background: #c2c1f7;
 }
-
+.left-links{
+  flex:1 1 200px;
+}
 .menu-main li {display: inline-block;}
 .menu-main li:after {
   content: "|";
@@ -14,7 +16,9 @@
   display: inline-block;
   vertical-align:top;
 }
+
 .menu-main li:last-child:after {content: none;}
+
 .menu-main a {
   text-decoration: none;
   font-family: 'Ubuntu Condensed', sans-serif;
