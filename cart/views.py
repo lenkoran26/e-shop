@@ -43,15 +43,27 @@ class Cart:
             self.save()
 
     
+    # def __iter__(self):
+    #     product_ids = self.cart.keys()
+    #     products = Products.objects.filter(id__in=product_ids)
+    #     cart = self.cart.copy()
+
+    #     for product in products:
+    #         cart[str(product.id)]['product'] = product
+        
+    #     for item in cart.values():
+    #         item['price'] = Decimal(item['price'])
+    #         item['total_price'] = item['price'] * item['quantity']
+    #         yield item
+    
     def __iter__(self):
         product_ids = self.cart.keys()
+        # получение объектов product и добавление их в корзину
         products = Products.objects.filter(id__in=product_ids)
-        cart = self.cart.copy()
-
         for product in products:
-            cart[str(product.id)]['product'] = product
-        
-        for item in cart.values():
+            self.cart[str(product.id)]['product'] = product
+
+        for item in self.cart.values():
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
             yield item
@@ -74,7 +86,7 @@ class Cart:
 @require_POST
 def cart_add(request, product_id):
     cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
+    product = get_object_or_404(Products, id=product_id)
     form = CartAddProductForm(request.POST)
     
     if form.is_valid():
@@ -90,7 +102,7 @@ def cart_add(request, product_id):
 @require_POST
 def cart_remove(request, product_id):
     cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
+    product = get_object_or_404(Products, id=product_id)
     cart.remove(product)
     
     return redirect('cart:cart_detail')
