@@ -105,10 +105,20 @@ def get_category(self):
     }
     return context
 
-def add_to_cart(request, product_slug):
-    return HttpResponse(product_slug)
 
 
 class ProductDetailView(DetailView):
-    pass
+    model = Products
+    template_name = 'products/product-detail.html'
+    context_object_name = 'product'
+    slug_url_kwarg = 'prod_slug'
+    
+
+    # def get_queryset(self):
+    #     super().get_queryset()
+    #     slug = self.request.resolver_match.kwargs['prod_slug']
+    #     queryset = Products.objects.get(slug = slug)
+    #     return queryset
+    
+    
 

@@ -5,7 +5,6 @@ from .views import *
 app_name = 'products'
 urlpatterns = [
     path('', index, name='index'),
-    
     path('category-form/', CategoryCreateView.as_view(), name='category-form'),
     path('category-list/', CategoryListView.as_view(), name='category-list'),
     
@@ -15,5 +14,5 @@ urlpatterns = [
     path('product-list/<slug:cat_slug>/<slug:subcat_slug>/', ProductListView.as_view(), name='product-list'),
     path('product-detail/<slug:cat_slug>/<slug:subcat_slug>/<slug:prod_slug>/', ProductDetailView.as_view(), name='product-detail'),
 
-    path('product-list/add-to-cart/<slug:prod_slug>/', add_to_cart, name='add-to-cart')
+    
 ]
