@@ -25,11 +25,10 @@ from market import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(urls_products)),
     path('users/', include(urls_users)),
     path('cart/', include(urls_cart)),
     path('orders/', include(urls_orders)),
-	
+	path('', include(urls_products)),
 ]
 
 if settings.DEBUG: 

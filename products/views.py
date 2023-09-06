@@ -3,6 +3,8 @@ from django.forms.models import BaseModelForm
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpRequest, HttpResponse
 from django.views.generic import CreateView, ListView, DetailView
+
+from cart.forms import CartAddProductForm
 from .models import Category, SubCategory, Products
 from .forms import CategoryForm, SubCategoryForm, ProductForm
 from django.urls import reverse_lazy
@@ -89,6 +91,12 @@ class ProductListView(ListView):
         queryset = Products.objects.filter(subcategory__slug = slug)
         return queryset
     
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        cart_product_form = CartAddProductForm()
+        context['cart_product_form'] = cart_product_form
+        return context
+
        
 def get_category(self):
     category = Category.objects.all()

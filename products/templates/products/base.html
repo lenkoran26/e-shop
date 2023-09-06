@@ -33,6 +33,21 @@
           <li><a href="">Выйти</a></li>
       </ul>
     </div>
+    <div class="cart">
+      {% with total_items=cart|length %}
+      {% if total_items > 0 %}
+      <p class="text-right">
+      Корзина:
+      <a href="{% url "cart:cart-detail"%}">
+        {{ total_items }} ед. -
+        {{ cart.get_total_price }} руб.
+      </a>
+      {% else %}
+      Корзина пуста.
+      {% endif %}
+      {% endwith %}
+    </p>
+    </div>
 
     {% for c in category_list  %}
     <li class="nav-item dropdown">

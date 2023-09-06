@@ -55,7 +55,7 @@ class SubCategory(models.Model):
 class Products(models.Model):
     name = models.CharField(max_length=128, unique=True, verbose_name='Название товара')
     description = models.TextField(max_length=1000, verbose_name='Описание товара')
-    price = models.FloatField(verbose_name='Цена товара')
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена товара')
     slug = models.SlugField(max_length=148, unique=True, verbose_name='URL-имя', editable=False)
     is_available = models.BooleanField(default=True, verbose_name='Доступность товара')
     created_at = models.DateField(auto_now_add=True, verbose_name='Дата добавления товара')

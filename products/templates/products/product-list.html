@@ -17,9 +17,15 @@
       {% endif %}
           
         <h2>{{ prod.name }}</h2>
-        <p>{{ prod.description }}</p>
+        <p>{{ prod.description|linebreaks }}</p>
         <p>{{ prod.price }} руб.</p>
-        <p><a href="{% url 'products:add-to-cart' prod.slug%}">Добавить в корзину</a></p>
+        <p>
+          <form action="{% url "cart:cart-add" prod.id %}" method="post">
+            {{ cart_product_form }}
+            {% csrf_token %}
+            <input type="submit" value="Add to cart"> 
+          </form>
+        </p>
       </div>
     {% endfor %}
     </div>
