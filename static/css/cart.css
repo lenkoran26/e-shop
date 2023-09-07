@@ -1,0 +1,13 @@
+.cart-table {
+    margin-left: 10%;
+    width: 90%;
+    table-layout: fixed;
+}
+
+.tbody tr:nth-child(odd) {
+    background-color: #e1e1f8;
+  }
+  
+.tbody tr:nth-child(even) {
+    background-color: #dadafa;
+  }

@@ -98,14 +98,6 @@ class ProductListView(ListView):
         return context
 
        
-def get_category(self):
-    category = Category.objects.all()
-    context = {
-        'category_list': category
-    }
-    return context
-
-
 
 class ProductDetailView(DetailView):
     model = Products
@@ -114,11 +106,7 @@ class ProductDetailView(DetailView):
     slug_url_kwarg = 'prod_slug'
     
 
-    # def get_queryset(self):
-    #     super().get_queryset()
-    #     slug = self.request.resolver_match.kwargs['prod_slug']
-    #     queryset = Products.objects.get(slug = slug)
-    #     return queryset
+    
     
     
 
