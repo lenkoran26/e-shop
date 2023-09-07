@@ -3,9 +3,10 @@
 {% load thumbnail %}
 
 {% block content %}
-<h1>Корзина</h1>
+<link rel="stylesheet" href="{% static 'css/cart.css'%}" type="text/css">
 
-<table class="cart">
+
+<table class='cart-table'>
     <thead>
         <tr>
             <th>Изображение</th>
@@ -16,7 +17,7 @@
             <th>Стоимость</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class='tbody'>
         
         {% for item in cart %}
             {% with product=item.product %}
@@ -59,8 +60,10 @@
     </tbody>
 </table>
 
-<p class="text-left">
+<p class="text-right">
     <a href="{% url "products:index"%}" class="button light">Продолжить покупки</a>
+</p>
+<p class="text-right">
     <a href="#" class="button">Оформить заказ</a>
 </p>
 {% endblock %}
