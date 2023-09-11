@@ -16,7 +16,7 @@ register = template.Library()
 def index(request):
     category = Category.objects.all()
     context = {
-        'category_list': category
+        'category_list': category,
     }
 
     return render(request, 'products/index.html', context=context)
@@ -104,8 +104,6 @@ class ProductDetailView(DetailView):
     template_name = 'products/product-detail.html'
     context_object_name = 'product'
     slug_url_kwarg = 'prod_slug'
-    
-
     
     
     

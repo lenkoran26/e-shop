@@ -23,6 +23,7 @@ from orders import urls as urls_orders
 from django.conf.urls.static import static
 from market import settings
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include(urls_users)),

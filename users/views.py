@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from market.settings import LOGIN_REDIRECT_URL
 from .forms import AuthForm
+from django.views.generic import DetailView
+from django.contrib.auth.models import User
 
 # from f_project.settings import LOGIN_REDIRECT_URL
 
@@ -44,7 +46,15 @@ def log_in(request):
     return render(request, 'users/login.html', {'form': form})
 
 
+
 def log_out(request):
     logout(request)
     url = reverse('products:index')
     return redirect(url)
+
+
+
+class UserDetailView(DetailView):
+    model = User
+    template_name = 'users/user-info.html'
+    
