@@ -18,7 +18,7 @@
         </tr>
     </thead>
     <tbody class='tbody'>
-        
+
         {% for item in cart %}
             {% with product=item.product %}
             <tr>
@@ -33,7 +33,7 @@
                     </td>
                     <td>{{ product.name }}</td>
                     <td>
-                    <form action="{% url "cart:cart-add" product.id %}" method="post">
+                    <form action="{% url 'cart:cart-add' product.id %}" method="post">
                         {{ item.update_quantity_form.quantity }}
                         {{ item.update_quantity_form.override }}
                         <input id="count" type="submit" value="Обновить кол-во">
@@ -61,7 +61,7 @@
 </table>
 
 <p class="text-right">
-    <a href="{% url "products:index"%}" class="button light">Продолжить покупки</a>
+    <a href="{% url 'products:index' %}" class="button light">Продолжить покупки</a>
 </p>
 <p class="text-right">
     <a href="#" class="button">Оформить заказ</a>

@@ -20,7 +20,7 @@
         <p>{{ prod.description|linebreaks }}</p>
         <p>{{ prod.price }} руб.</p>
         <p>
-          <form action="{% url "cart:cart-add" prod.id %}" method="post">
+          <form action="{% url 'cart:cart-add' prod.id %}" method="post">
             {{ cart_product_form }}
             {% csrf_token %}
             <input type="submit" value="В корзину"> 
