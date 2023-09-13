@@ -36,6 +36,17 @@ class Cart:
 
     def save(self):
         self.session.modified = True
+        
+        # if self.user:
+        #     user_cart = CartUser.objects.get_or_create(user=self.user)[0]
+        #     for product_id in list(self.cart.keys()):
+        #         product = Products.objects.get(pk=product_id)
+        #         quantity = self.cart[str(product.id)]['quantity']
+        #         cart_item, created = CartItem.objects.get_or_create(cart=user_cart, product=product, quantity=quantity)
+        #         if not created:
+        #             cart_item.quantity += 1
+        #             cart_item.save()
+                
     
 
     def remove(self, product):
@@ -81,6 +92,15 @@ def cart_add(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     form = CartAddProductForm(request.POST)
     
+    #добавление со страницы карточка товара
+    #проверяем количество полей формы
+    #если поле 1, то количество товара не передано, значит добавляем одну позицию
+    
+    if len(request.POST) == 1:
+        cart.add(product=product, 
+                 quantity=1,
+                 override_quantity=False)
+        return redirect('cart:cart-detail')
         
     if form.is_valid():
         cd = form.cleaned_data
