@@ -5,12 +5,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from products.models import Products
 from .forms import CartAddProductForm
+from cart.models import CartUser, CartItem
 
 # Create your views here.
 
 class Cart:
     def __init__(self, request):
         self.session = request.session
+        self.user = request.user
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
@@ -79,6 +81,7 @@ def cart_add(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     form = CartAddProductForm(request.POST)
     
+        
     if form.is_valid():
         cd = form.cleaned_data
         cart.add(product=product, 

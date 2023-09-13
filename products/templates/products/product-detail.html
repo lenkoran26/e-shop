@@ -21,7 +21,6 @@
     {{ product.description|linebreaks }}
     <h2>
       <form action="{% url 'cart:cart-add' product.id %}" method="post">
-        {{ cart_product_form }}
         {% csrf_token %}
         <input type="submit" value="В корзину"> 
       </form>
