@@ -87,7 +87,13 @@ def cart_add(request, product_id):
         cart.add(product=product, 
                  quantity=cd['quantity'],
                  override_quantity=cd['override'])
+    else:
+        # добавляем  1 единицу товара
+        cart.add(product=product, 
+                 quantity=1,
+                 override_quantity=False)
     
+    # переходим на страницу корзины
     return redirect('cart:cart-detail')
 
 
