@@ -66,4 +66,33 @@
 <p class="text-right">
     <a href="#" class="button">Оформить заказ</a>
 </p>
+
+<script>
+       
+    
+    function sendCount(count){
+        
+            console.log(count.value)
+            var url = "/cart/send_count/";
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');             
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                }
+            };
+            var form = count.parentNode
+            var id_product = form.querySelector("#pk").value
+            var data = JSON.stringify({
+                'count': count.value,
+                'id': id_product
+            });
+            xhr.send(data);
+        
+        
+    }
+</script>
+
 {% endblock %}
