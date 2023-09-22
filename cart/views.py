@@ -1,3 +1,4 @@
+import json
 from market import settings
 from products.models import Products
 from decimal import Decimal
@@ -6,6 +7,9 @@ from django.views.decorators.http import require_POST
 from products.models import Products
 from .forms import CartAddProductForm
 from cart.models import CartUser, CartItem
+from django.views.decorators.csrf import csrf_exempt
+from django.http.response import HttpResponse
+
 
 # Create your views here.
 
@@ -249,3 +253,23 @@ def remove_from_db(request, product_id):
     cart.remove(product_id, request)    
     
     return redirect('cart:cart-detail')
+
+
+
+
+
+@require_POST
+@csrf_exempt
+def get_ajax(request):
+    data = json.loads(request.body)
+    product_count = data.get('count')
+    product_id = data.get('id')
+    
+    product = get_object_or_404(Products, id=product_id)
+    product_item = CartItem.objects.get(product=product)
+    product_item.quantity = product_count
+    product_item.save()
+    
+    
+    response_data = {'result': 'success'}
+    return HttpResponse(json.dumps(response_data), content_type = 'application/json')
