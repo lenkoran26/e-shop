@@ -64,7 +64,7 @@
     <a href="{% url 'products:index' %}" class="button light">Продолжить покупки</a>
 </p>
 <p class="text-right">
-    <a href="#" class="button">Оформить заказ</a>
+    <a href={% url "orders:order-create" %} class="button">Оформить заказ</a>
 </p>
 
 <script>
