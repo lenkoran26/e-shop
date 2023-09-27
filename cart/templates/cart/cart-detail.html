@@ -52,10 +52,10 @@
             {% endwith %}
         {% endfor %}
 
-        <tr class="Стоимость">
+        <tr>
             <td>Сумма заказа:</td>
             <td colspan="4"></td>
-            <td class="num">{{ cart.get_total_price }} руб.</td>
+            <td class="num"><span id="total_price">{{ cart.get_total_price }}</span> руб.</td>
         </tr>
     </tbody>
 </table>
@@ -64,35 +64,38 @@
     <a href="{% url 'products:index' %}" class="button light">Продолжить покупки</a>
 </p>
 <p class="text-right">
-    <a href={% url "orders:order-create" %} class="button">Оформить заказ</a>
+    <a id="create-order" href={% url "orders:order-create" %} class="button">Оформить заказ</a>
 </p>
 
 <script>
-       
+    function checkCart(event){
+        var total_price = document.querySelector("#total_price")
+        if (total_price.textContent == '0'){
+            event.preventDefault()
+            window.alert('Cart is empty!!!')
+        }
+    }   
     
     function sendCount(count){
-        
-            console.log(count.value)
-            var url = "/cart/send_count/";
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', url, true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');             
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log(xhr.responseText);
-                }
-            };
-            var form = count.parentNode
-            var id_product = form.querySelector("#pk").value
-            var data = JSON.stringify({
-                'count': count.value,
-                'id': id_product
-            });
-            xhr.send(data);
-        
-        
+        var url = "/cart/send_count/";
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');             
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+            }
+        };
+        var form = count.parentNode
+        var id_product = form.querySelector("#pk").value
+        var data = JSON.stringify({
+            'count': count.value,
+            'id': id_product
+        });
+        xhr.send(data);
     }
+    document.querySelector("#create-order").addEventListener("click", checkCart)
 </script>
 
 {% endblock %}

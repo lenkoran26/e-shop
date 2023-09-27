@@ -1,0 +1,22 @@
+{% extends "products/base.html" %}
+
+<div class="orders">
+    <table>
+        <tr>    
+            <th>Номер заказа</th>
+            <th>Статус</th>
+            <th>Сумма заказа</th>
+            <th>Способ оплаты</th>
+            <th>Вариант доставки</th>
+        </tr>
+        {% for  order in orders  %}
+            <div class="order-item">
+                <tr>
+                    <td>{{order.number}}</td>
+                    <td>{{order.status}}</td>
+                    <td>{{order.total_price}}</td>
+                    <td>{{order.payment}}</td>
+                    <td>{{order.deliviry}}</td>
+                </tr>
+            </div>
+        {% endfor %}
