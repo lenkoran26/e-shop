@@ -2,7 +2,7 @@
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from cart.models import CartUser
 from cart.views import Cart, ProductCartUser
@@ -40,14 +40,18 @@ def create_order(request):
             cart = ProductCartUser(request).cart
         # либо получаем корзину из сессии
         else:
-            cart = Cart(request)
+            cart = Cart(request).cart
         
-        # получчаем номер только что созданного пустого заказа
+        # получаем номер только что созданного пустого заказа
         order_num = order_form.instance.number
-        user = User.objects.get(pk=request.user.id)
-        # получаем объект самого заказа из БД
-        order = Order.objects.get(number = order_num)
-        order.user = user
+        if request.user.id:
+            user = User.objects.get(pk=request.user.id)
+            order = Order.objects.get(number = order_num)
+            order.user = user
+        else:
+            # получаем объект самого заказа из БД
+            order = Order.objects.get(number = order_num)
+        
         total_price = 0
         
         # проходимся по корзине и заносим товары в заказ
@@ -79,8 +83,16 @@ class OrdersListView(ListView):
     def get_queryset(self):
         super().get_queryset()
         user = self.request.user
-        queryset = Order.objects.filter(Q(email = user.email) | Q(user=user))
+        query = Q(email = user.email) | Q(user=user)
+        queryset = Order.objects.filter(query)
         
         return queryset
+    
+
+class OrderDetailView(DetailView):
+    model = Order
+    template_name = 'orders/order-detail.html'
+    context_object_name = 'order'
+
     
     

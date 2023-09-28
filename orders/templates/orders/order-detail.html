@@ -1,0 +1,24 @@
+{% extends "products/base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/orders.css'%}" type="text/css">
+
+    <table class="order-info">
+        <tr>    
+            <th>Товар</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Стоимость</th>
+        </tr>
+        {% for item in order.order_items.all %}
+                <tr>
+                    <td><a href="{{item.product.get_absolute_url}}">{{item.product.name}}</a></td>
+                    <td>{{item.product.price}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.get_total_price}}</td>
+                </tr>
+        {% endfor %}
+
+        
+{% endblock content %}

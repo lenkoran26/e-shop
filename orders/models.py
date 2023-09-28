@@ -19,7 +19,8 @@ STATUS_CHOICES = (
 def get_order_number():
     date = datetime.now().strftime('%Y-%m-%d')
     if Order.objects.all().last():
-        last_order = Order.objects.all().last()
+        last_order = Order.objects.order_by('created_at').last()
+        #last_order = Order.objects.all().last()
         if last_order.number[0:10] == date:
             num = int(last_order.number[11::]) + 1
         else:
@@ -53,4 +54,6 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='orders')
     quantity = models.IntegerField()
     
+    def get_total_price(self):
+        return self.product.price * int(self.quantity)
     

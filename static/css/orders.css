@@ -1,0 +1,27 @@
+.order-info{
+    width: 75%;
+    border: 0px solid #ccc;
+    margin-left: 15%;
+    margin-right: 10%;
+    border-collapse: separate;
+    border-spacing: 5px;
+    
+}
+
+.order-info th{
+    color: brown;
+}
+
+.order-create{
+    width: 60%;
+    border: 0px solid #ccc;
+    border-collapse: separate;
+    border-spacing: 10px;
+    margin-left: auto;
+    
+}
+
+.order-create th{
+    color: brown;
+}
+

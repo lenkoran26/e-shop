@@ -1,7 +1,10 @@
 {% extends "products/base.html" %}
 {% block content %}
-<div class="orders">
-    <table>
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/orders.css'%}" type="text/css">
+
+    <table class="order-info">
         <tr>    
             <th>Номер заказа</th>
             <th>Статус</th>
@@ -10,16 +13,15 @@
             <th>Вариант доставки</th>
         </tr>
         {% for  order in orders  %}
-            <div class="order-item">
                 <tr>
-                    <td>{{order.number}}</td>
+                    <td>
+                       <a href={% url "orders:order-detail" order.number%}>{{order.number}}</a>
+                    </td>
                     <td>{{order.status}}</td>
                     <td>{{order.total_price}}</td>
                     <td>{{order.payment}}</td>
                     <td>{{order.deliviry}}</td>
                 </tr>
-            </div>
         {% endfor %}
-</div>
         
 {% endblock content %}
