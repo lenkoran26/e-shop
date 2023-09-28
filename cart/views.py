@@ -111,7 +111,11 @@ def cart_remove(request, product_id):
 
 
 def cart_detail(request):
-    cart = Cart(request)
+    if request.user.id:
+        cart = ProductCartUser(request)
+    else:
+        cart = Cart(request)
+        
     for item in cart:
         item['update_quantity_form'] = CartAddProductForm(initial={
             'quantity': item['quantity'],

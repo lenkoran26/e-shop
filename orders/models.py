@@ -1,7 +1,8 @@
-import uuid
+from django.contrib.auth.models import User
 from django.db import models
-from cart.models import Products
 from django.utils.timezone import datetime
+
+from cart.models import Products
 
 STATUS_CHOICES = (
     ("in_process", "В обработке"),
@@ -30,6 +31,7 @@ def get_order_number():
 
 class Order(models.Model):
     number = models.CharField(primary_key=True, unique=True, max_length=256, default=get_order_number, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, editable=False)
     first_name = models.CharField(max_length=256, verbose_name='Имя')
     last_name = models.CharField(max_length=256, verbose_name='Фамилия')
     email = models.EmailField(verbose_name='Электронная почта')
