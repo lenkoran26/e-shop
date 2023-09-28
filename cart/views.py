@@ -103,6 +103,9 @@ def cart_add(request, product_id):
 
 @require_POST
 def cart_remove(request, product_id):
+    if request.user.id:
+        return remove_from_db(request, product_id)
+    
     cart = Cart(request)
     product = get_object_or_404(Products, id=product_id)
     cart.remove(product)

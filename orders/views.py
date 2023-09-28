@@ -1,7 +1,9 @@
 
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
 from cart.models import CartUser
@@ -27,20 +29,27 @@ def create_order(request):
         
         return render(request, template_name="orders/order.html", context=context)
     
+    # получаем корзину из БД
+    if request.user.id:
+        cart = ProductCartUser(request).cart
+    # либо получаем корзину из сессии
+    else:
+        cart = Cart(request).cart
+
+    if len(cart) == 0:
+        url = reverse('products:index')
+        return redirect(url)
+        
     # если нажата кнопка подтвердить заказ
     # получаем заполненную форму
+    
     order_form = OrderForm(request.POST)
     
     # сохраняем пустой заказ в БД
     if order_form.is_valid():
         order_form.save()
 
-        # получаем корзину из БД
-        if request.user.id:
-            cart = ProductCartUser(request).cart
-        # либо получаем корзину из сессии
-        else:
-            cart = Cart(request).cart
+        
         
         # получаем номер только что созданного пустого заказа
         order_num = order_form.instance.number
@@ -71,7 +80,7 @@ def create_order(request):
             cart.clear()
         
         context = {'order': order}
-        
+              
         return render(request, 'orders/order_success.html', context=context)
             
 
@@ -87,12 +96,13 @@ class OrdersListView(ListView):
         queryset = Order.objects.filter(query)
         
         return queryset
-    
+        
 
 class OrderDetailView(DetailView):
     model = Order
     template_name = 'orders/order-detail.html'
     context_object_name = 'order'
+
 
     
     

@@ -63,9 +63,12 @@
 <p class="text-right">
     <a href="{% url 'products:index' %}" class="button light">Продолжить покупки</a>
 </p>
+{% if cart|length > 0 %}
 <p class="text-right">
     <a id="create-order" href={% url "orders:order-create" %} class="button">Оформить заказ</a>
 </p>
+{% endif %}
+
 
 <script>
     function checkCart(event){

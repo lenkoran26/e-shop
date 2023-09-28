@@ -25,7 +25,7 @@
     <div class="menu-item"><a href="{% url 'products:index' %}">Главная</a></div>
     <div class="menu-item"><a href="">Категории</a></div>
     {% if user.is_authenticated %}
-    <div class="menu-item"><a href={% url "orders:order-list" %}>Заказы</a></div>
+    <div class="menu-item"><a href={% url "orders:order-list" %}>Заказы</a></div> 
     {% endif %}
     <div class="menu-item"><a href="{% url 'cart:cart-detail' %}">Корзина</a></div>
     <div class="item-space"></div>
