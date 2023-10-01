@@ -1,0 +1,43 @@
+{% extends "products/base.html" %}
+{% load static %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <label for="category">Категория:</label>
+<select id="category" name="category">
+  {% for category in categories %}
+  <option value="{{ category.id }}">{{ category.name }}</option>
+  {% endfor %}
+</select>
+ 
+<label for="subcategory">Подкатегория:</label>
+<select id="subcategory" name="subcategory">
+  <!-- Подкатегории будут обновляться динамически -->
+</select>
+    <br>
+    <button type="submit">Изменить</button>
+</form>
+
+
+<script>
+var categories = {
+    {% for category in categories %}
+    "{{ category.id }}": {
+      subcategories: [
+        {% for subcategory in category.categories.all %}
+        {
+          id:"{{ subcategory.id }}",
+          name:"{{ subcategory.name }}",
+        },
+        
+        {% endfor %}
+      ]
+    },
+    {% endfor %}
+  };
+</script>
+<script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+
+{% endblock content %}

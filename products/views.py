@@ -1,14 +1,14 @@
 from typing import Any, Dict
-from django.forms.models import BaseModelForm
+
+from django import template
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpRequest, HttpResponse
-from django.views.generic import CreateView, ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 
 from cart.forms import CartAddProductForm
-from .models import Category, SubCategory, Products
-from .forms import CategoryForm, SubCategoryForm, ProductForm
-from django.urls import reverse_lazy
-from django import template
+
+from .forms import CategoryForm, ProductForm, SubCategoryForm
+from .models import Category, Products, SubCategory
 
 register = template.Library()
 
@@ -104,6 +104,19 @@ class ProductDetailView(DetailView):
     template_name = 'products/product-detail.html'
     context_object_name = 'product'
     slug_url_kwarg = 'prod_slug'
+    
+
+class ProductUpdateView(UpdateView):
+    model = Products
+    form_class = ProductForm
+    template_name = 'products/product-update.html'
+    slug_url_kwarg = 'prod_slug'
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['subcategories'] = SubCategory.objects.all()
+        return context
     
     
     

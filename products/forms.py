@@ -25,8 +25,6 @@ class SubCategoryForm(forms.ModelForm):
 
 
 class ProductForm(forms.ModelForm):
-    category = forms.ModelChoiceField(queryset=Category.objects.all())
-    subcategory = forms.ModelChoiceField(queryset=SubCategory.objects.all())
     class Meta:
         model = Products
         exclude = ['created_at', 'is_available']
